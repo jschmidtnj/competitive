@@ -1,0 +1,8 @@
+3 3
+ABC
+BCD
+CDE
+5 4 122 4
+ABCD
+ABCE
+1 2 3 4
