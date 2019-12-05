@@ -34,7 +34,6 @@ int main()
   horizontal.reserve(mapsize);
   long stepsSecondWireFirstIntersection = 0;
   vector<pair<long, char>> firstWireSteps;
-  vector<pair<long, char>> secondWireSteps;
   coords firstIntersect;
   for (int i = 0; i < 2; i++)
   {
@@ -53,8 +52,6 @@ int main()
       }
       if (i == 0)
         firstWireSteps.push_back(pair<long, char>(distance, type));
-      else
-        secondWireSteps.push_back(pair<long, char>(distance, type));
       if (type == 'R' || type == 'L')
       {
         long lower, upper;
@@ -206,9 +203,9 @@ int main()
       if (curr.x == firstIntersect.x && curr.y >= lower && curr.y <= upper)
       {
         if (firstWireSteps[i].second == 'D')
-          stepsFirstWireFirstIntersection += (curr.y - firstIntersect.y);
+          stepsFirstWireFirstIntersection += abs(curr.y - firstIntersect.y);
         else
-          stepsFirstWireFirstIntersection += (firstIntersect.y - curr.y);
+          stepsFirstWireFirstIntersection += abs(firstIntersect.y - curr.y);
         curr = firstIntersect;
         break;
       }
@@ -237,9 +234,9 @@ int main()
       if (curr.y == firstIntersect.y && curr.x >= lower && curr.x <= upper)
       {
         if (firstWireSteps[i].second == 'L')
-          stepsFirstWireFirstIntersection += (curr.x - firstIntersect.x);
+          stepsFirstWireFirstIntersection += abs(curr.x - firstIntersect.x);
         else
-          stepsFirstWireFirstIntersection += (firstIntersect.x - curr.x);
+          stepsFirstWireFirstIntersection += abs(firstIntersect.x - curr.x);
         curr = firstIntersect;
         break;
       }
