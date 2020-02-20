@@ -15,8 +15,9 @@ struct library {
     long long days_left = num_days - current_day;
     long long score = 0;
     vector<long long> books_to_use;
-    for (long long potential_book_index = (days_left - signup_time) * books_per_day - 1, num_books_looked_at = 0; potential_book_index >= 0 && num_books_looked_at < num_books; potential_book_index--, num_books_looked_at++) {
-      long long current_book = books[potential_book_index];
+    long long max_books = (days_left - signup_time) * books_per_day;
+    for (long long max_books_index = max_books - 1, current_book_index = num_books - 1; max_books_index >= 0 && current_book_index >= 0; max_books_index--, current_book_index--) {
+      long long current_book = books[current_book_index];
       if (books_used.find(current_book) == books_used.end()) {
         score += scores[current_book];
         books_to_use.push_back(current_book);
@@ -173,7 +174,7 @@ int main(int argc, const char* argv[]) {
   }
   file.close();
   solve();
-  // print_soln();
+  print_soln();
   delete[] libraries;
   delete[] libraries_remaining;
   delete[] scores;
