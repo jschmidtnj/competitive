@@ -2,38 +2,38 @@
 
 using namespace std;
 
-int num_books, num_libraries, num_days;
-int* scores;
-int current_day = 0;
-std::unordered_set<int> books_used;
+long long num_books, num_libraries, num_days;
+long long* scores;
+long long current_day = 0;
+std::unordered_set<long long> books_used;
 
 struct library {
-  int num_books = 0, signup_time = 0, books_per_day = 0;
-  vector<int> books;
+  long long num_books = 0, signup_time = 0, books_per_day = 0;
+  vector<long long> books;
   library() {}
-  pair<int, vector<int>> getPotential() {
-    int days_left = num_days - current_day;
-    int score = 0;
-    vector<int> books_to_use;
-    for (int i = (days_left - signup_time) * books_per_day - 1, num_books_looked_at = 0; i >= 0 && num_books_looked_at < num_books; i--, num_books_looked_at++) {
+  pair<long long, vector<long long>> getPotential() {
+    long long days_left = num_days - current_day;
+    long long score = 0;
+    vector<long long> books_to_use;
+    for (long long i = (days_left - signup_time) * books_per_day - 1, num_books_looked_at = 0; i >= 0 && num_books_looked_at < num_books; i--, num_books_looked_at++) {
       if (books_used.find(books[i]) == books_used.end()) {
         score += scores[books[i]];
         books_to_use.push_back(books[i]);
       }
     }
-    return pair<int, vector<int>>(score, books_to_use);
+    return pair<long long, vector<long long>>(score, books_to_use);
   }
 };
 
 library * libraries;
 
 bool * libraries_remaining;
-int num_libraries_remaining;
+long long num_libraries_remaining;
 
 struct library_res {
-  int library_num;
+  long long library_num;
   library_res() {}
-  vector<int> books_used;
+  vector<long long> books_used;
 };
 
 vector<library_res> libraries_used;
@@ -41,11 +41,11 @@ vector<library_res> libraries_used;
 void solve() {
   while (current_day < num_days && num_libraries_remaining > 0) {
     // if I am selecting library:
-    int use_index = 0;
-    pair<int, vector<int>> use_potential;
-    for (int j = 0; j < num_libraries; j++) {
+    long long use_index = 0;
+    pair<long long, vector<long long>> use_potential;
+    for (long long j = 0; j < num_libraries; j++) {
       if (libraries_remaining[j]) {
-        pair<int, vector<int>> current_potential = libraries[j].getPotential();
+        pair<long long, vector<long long>> current_potential = libraries[j].getPotential();
         if (current_potential.first >= use_potential.first) {
           use_potential = current_potential;
           use_index = j;
@@ -55,34 +55,39 @@ void solve() {
     // cout << use_potential.first << endl;
     library_res current_library;
     current_library.books_used = use_potential.second;
-    for (const int & book : current_library.books_used) {
+    current_library.library_num = use_index;
+    libraries_remaining[use_index] = false;
+    num_libraries_remaining--;
+    if (current_library.books_used.size() == 0) {
+      continue;
+    }
+    current_day += libraries[use_index].signup_time;
+    for (const long long & book : current_library.books_used) {
       books_used.insert(book);
     }
-    current_library.library_num = use_index;
     libraries_used.push_back(current_library);
-    libraries_remaining[use_index] = false;
-    current_day += libraries[use_index].signup_time;
-    num_libraries_remaining--;
   }
 }
 
 void print_soln() {
   cout << libraries_used.size() << endl;
-  for (const library_res & lib : libraries_used) {
-    cout << lib.library_num << ' ' << lib.books_used.size() << '\n';
-    if (lib.books_used.size() > 0) {
-      cout << lib.books_used[0];
+  for (size_t i = 0; i < libraries_used.size(); i++) {
+    cout << libraries_used[i].library_num << ' ' << libraries_used[i].books_used.size() << '\n';
+    if (libraries_used[i].books_used.size() > 0) {
+      cout << libraries_used[i].books_used[0];
     }
-    for (size_t i = 1; i < lib.books_used.size(); i++) {
-      cout << ' ' << lib.books_used[i];
+    for (size_t j = 1; j < libraries_used[i].books_used.size(); j++) {
+      cout << ' ' << libraries_used[i].books_used[j];
     }
-    cout << '\n';
+    if (i < libraries_used.size() - 1) {
+      cout << '\n';
+    }
   }
 }
 
-void swapInts(int &elem1, int &elem2)
+void swapLongs(long long &elem1, long long &elem2)
 {
-  int temp = elem1;
+  long long temp = elem1;
   elem1 = elem2;
   elem2 = temp;
 }
@@ -95,17 +100,17 @@ std::default_random_engine generator;
  * partitions keys using Lomuto with
  * random partition index
  */
-int partitionIndexes(int indexes[], long left, long right)
+long long partitionIndexes(long long indexes[], long long left, long long right)
 {
-  std::uniform_int_distribution<long> dist(left, right);
-  unsigned long randIndex = dist(generator);
-  swapInts(indexes[randIndex], indexes[left]);
+  std::uniform_int_distribution<long long> dist(left, right);
+  unsigned long long randIndex = dist(generator);
+  swapLongs(indexes[randIndex], indexes[left]);
   int pivot = scores[indexes[left]];
-  long s = left;
-  for (long i = left + 1; i <= right; i++)
+  long long s = left;
+  for (long long i = left + 1; i <= right; i++)
     if (scores[indexes[i]] < pivot)
-      swapInts(indexes[++s], indexes[i]);
-  swapInts(indexes[left], indexes[s]);
+      swapLongs(indexes[++s], indexes[i]);
+  swapLongs(indexes[left], indexes[s]);
   return s;
 }
 
@@ -114,11 +119,11 @@ int partitionIndexes(int indexes[], long left, long right)
  * 
  * quick sort the array based on first element in words
  */
-void quickSortBooks(int indexes[], int left, int right)
+void quickSortBooks(long long indexes[], long long left, long long right)
 {
   if (left < right)
   {
-    int partition = partitionIndexes(indexes, left, right);
+    long long partition = partitionIndexes(indexes, left, right);
     quickSortBooks(indexes, left, partition - 1);
     quickSortBooks(indexes, partition + 1, right);
   }
@@ -131,10 +136,11 @@ int main(int argc, const char* argv[]) {
   }
   ifstream file(argv[1]);
   file >> num_books >> num_libraries >> num_days;
+  books_used.reserve(num_books);
   // cout << "num days: " << num_days << endl;
-  scores = new int[num_books];
-  for (int i = 0; i < num_books; i++) {
-    int current_book_score;
+  scores = new long long[num_books];
+  for (long long i = 0; i < num_books; i++) {
+    long long current_book_score;
     file >> current_book_score;
     scores[i] = current_book_score;
     // cout << current_book_score << endl;
@@ -142,14 +148,14 @@ int main(int argc, const char* argv[]) {
   libraries = new library[num_libraries];
   libraries_remaining = new bool[num_libraries];
   num_libraries_remaining = num_libraries;
-  for (int i = 0; i < num_libraries; i++) {
+  for (long long i = 0; i < num_libraries; i++) {
     libraries[i] = library();
     file >> libraries[i].num_books;
     file >> libraries[i].signup_time;
     file >> libraries[i].books_per_day;
     libraries[i].books.reserve(libraries[i].num_books);
-    for (int j = 0; j < libraries[i].num_books; j++) {
-      int current_book;
+    for (long long j = 0; j < libraries[i].num_books; j++) {
+      long long current_book;
       file >> current_book;
       libraries[i].books.push_back(current_book);
     }
