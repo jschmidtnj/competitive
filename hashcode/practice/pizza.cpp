@@ -35,15 +35,14 @@ int main(int argc, const char* argv[]) {
     // cout << current_pizza_num_slices << endl;
   }
   pair<int, vector<int>> res = use_lose(0);
-  cout << res.first << endl;
+  cout << res.second.size() << endl;
   sort(res.second.begin(), res.second.end());
   if (res.second.size() > 0) {
     cout << res.second[0];
   }
   for (size_t i = 1; i < res.second.size(); i++) {
-    cout << ", " << res.second[i];
+    cout << " " << res.second[i];
   }
-  cout << '\n';
   file.close();
   delete pizza_data;
 }
