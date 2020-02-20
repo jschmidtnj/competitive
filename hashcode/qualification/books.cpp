@@ -7,10 +7,10 @@ long* scores;
 long current_day = 0;
 std::unordered_set<long> books_used;
 
-const int timeout_secs = 10;
+const int timeout_secs = 20;
 
 struct library {
-  long num_books = 0, signup_time = 0, books_per_day = 0;
+  long num_books, signup_time = 0, books_per_day = 0, index;
   vector<long> books;
   library() {}
   pair<long, vector<long>> getPotential() {
@@ -50,12 +50,11 @@ void solve() {
     for (long i = 0; i < num_libraries; i++) {
       libraries_remaining[i] = true;
     }
-    shuffle(libraries.begin(), libraries.end(), std::default_random_engine(seed));
     long current_total_score = 0;
     long num_libraries_remaining = num_libraries;
     current_day = 0;
     while (current_day < num_days && num_libraries_remaining > 0) {
-      // if I am selecting library:
+      shuffle(libraries.begin(), libraries.end(), std::default_random_engine(seed));
       long use_index = 0;
       pair<long, vector<long>> use_potential;
       for (long j = 0; j < num_libraries; j++) {
@@ -70,32 +69,35 @@ void solve() {
       // cout << use_potential.first << endl;
       library_res current_library;
       current_library.books_used = use_potential.second;
-      current_library.library_num = use_index;
+      current_library.library_num = libraries[use_index].index;
       libraries_remaining[use_index] = false;
       num_libraries_remaining--;
       if (current_library.books_used.size() == 0) {
-        if ((clock() - timeStart) / CLOCKS_PER_SEC >= timeout_secs) {
-          return;
-        }
         continue;
       }
       current_day += libraries[use_index].signup_time;
       for (const long & book : current_library.books_used) {
         books_used.insert(book);
       }
-      libraries_used.push_back(current_library);
+      current_libraries_used.push_back(current_library);
       current_total_score += use_potential.first;
-      if ((clock() - timeStart) / CLOCKS_PER_SEC >= timeout_secs) {
-        return;
-      }
     }
     if (current_total_score > max_total_score) {
+      // cout << "new score: " << current_total_score << endl;
       max_total_score = current_total_score;
-      copy(current_libraries_used.begin(), current_libraries_used.end(), back_inserter(libraries_used)); 
+      libraries_used.clear();
+      for(const library_res lib : current_libraries_used) {
+        libraries_used.push_back(lib);
+      }
     }
     current_libraries_used.clear();
+    if ((clock() - timeStart) / CLOCKS_PER_SEC >= timeout_secs) {
+      cout << "Max Total Score: " << max_total_score << endl;
+      cout << "----------------" << endl;
+      delete[] libraries_remaining;
+      return;
+    }
   }
-  delete[] libraries_remaining;
 }
 
 void print_soln() {
@@ -176,6 +178,7 @@ int main(int argc, const char* argv[]) {
   }
   for (long i = 0; i < num_libraries; i++) {
     libraries.push_back(library());
+    libraries[i].index = i;
     file >> libraries[i].num_books;
     file >> libraries[i].signup_time;
     file >> libraries[i].books_per_day;
