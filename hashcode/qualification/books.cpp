@@ -16,7 +16,7 @@ struct library {
     int score = 0;
     vector<int> books_to_use;
     for (int i = (days_left - signup_time) * books_per_day - 1, num_books_looked_at = 0; i >= 0 && num_books_looked_at < num_books; i--, num_books_looked_at++) {
-      if (books_used.find(books[i]) != books_used.end()) {
+      if (books_used.find(books[i]) == books_used.end()) {
         score += scores[books[i]];
         books_to_use.push_back(books[i]);
       }
@@ -52,6 +52,7 @@ void solve() {
         }
       }
     }
+    // cout << use_potential.first << endl;
     library_res current_library;
     current_library.books_used = use_potential.second;
     for (const int & book : current_library.books_used) {
@@ -130,6 +131,7 @@ int main(int argc, const char* argv[]) {
   }
   ifstream file(argv[1]);
   file >> num_books >> num_libraries >> num_days;
+  // cout << "num days: " << num_days << endl;
   scores = new int[num_books];
   for (int i = 0; i < num_books; i++) {
     int current_book_score;
@@ -155,6 +157,8 @@ int main(int argc, const char* argv[]) {
       quickSortBooks(&libraries[i].books[0], 0, libraries[i].books.size() - 1);
     }
     libraries_remaining[i] = true;
+    // cout << "signup time: " << libraries[i].signup_time << endl;
+    // cout << "books per day: " << libraries[i].books_per_day << endl;
     // for (const int & book : libraries[i].books) {
     //   cout << book << ' ';
     // }
