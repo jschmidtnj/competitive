@@ -138,9 +138,7 @@ bool is_present(passport_data &passport)
 
 size_t solution_1(vector<passport_data> &passports)
 {
-  return count_if(passports.begin(), passports.end(), [](passport_data passport) -> bool {
-    return is_present(passport);
-  });
+  return count_if(passports.begin(), passports.end(), is_present);
 }
 
 bool is_valid(passport_data &passport)
@@ -432,5 +430,5 @@ int main()
   size_t res_1 = solution_1(data);
   cout << "part 1 output: " << res_1 << endl;
   size_t res_2 = solution_2(data);
-  cout << "part 2 output: " << res_2 << endl;
+  cout << "part 2 output: 1" << res_2 << endl;
 }
