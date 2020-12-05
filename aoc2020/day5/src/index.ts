@@ -52,7 +52,7 @@ const main = (): void => {
     }
   }
   if (seatID === null) {
-    throw new Error('cannnot find seat id');
+    throw new Error('cannot find seat id');
   }
   logger.info(`part 2: ${seatID}`);
 };
