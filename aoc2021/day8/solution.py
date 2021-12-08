@@ -34,7 +34,6 @@ def part_2() -> int:
             output = split[1].strip().split(' ')
             output_values.append(output)
 
-    # 2: 5, 0: 6, 9: 6, 6: 6, 5: 5
     res = 0
     for i, vals in enumerate(output_values):
         mapping_nums: List[frozenset] = [None] * 10
@@ -74,6 +73,8 @@ def part_2() -> int:
                 curr_num = None
                 if val_set.issubset(mapping_nums[6]):
                     curr_num = 5
+                elif val_set.issuperset(mapping_nums[7]):
+                    curr_num = 3
                 else:
                     curr_num = 2
                 mappings[val_set] = curr_num
