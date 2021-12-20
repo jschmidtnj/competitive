@@ -1,4 +1,16 @@
 [[package]]
+name = "autopep8"
+version = "1.6.0"
+description = "A tool that automatically formats Python code to conform to the PEP 8 style guide"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+pycodestyle = ">=2.8.0"
+toml = "*"
+
+[[package]]
 name = "llvmlite"
 version = "0.37.0"
 description = "lightweight wrapper around basic LLVM functionality"
@@ -27,6 +39,14 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
+name = "pycodestyle"
+version = "2.8.0"
+description = "Python style guide checker"
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+
+[[package]]
 name = "scipy"
 version = "1.7.3"
 description = "SciPy: Scientific Library for Python"
@@ -37,12 +57,24 @@ python-versions = ">=3.7,<3.11"
 [package.dependencies]
 numpy = ">=1.16.5,<1.23.0"
 
+[[package]]
+name = "toml"
+version = "0.10.2"
+description = "Python Library for Tom's Obvious, Minimal Language"
+category = "main"
+optional = false
+python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
+
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9,<3.10"
-content-hash = "14982a6fc8b28fd12449231341b656554ab4e7886f067c226db75d0f3f1b40d3"
+content-hash = "8880a2be053d13c13131c4dc04ba7b1b726b966fdd7fb34246b9c87276b37657"
 
 [metadata.files]
+autopep8 = [
+    {file = "autopep8-1.6.0-py2.py3-none-any.whl", hash = "sha256:ed77137193bbac52d029a52c59bec1b0629b5a186c495f1eb21b126ac466083f"},
+    {file = "autopep8-1.6.0.tar.gz", hash = "sha256:44f0932855039d2c15c4510d6df665e4730f2b8582704fa48f9c55bd3e17d979"},
+]
 llvmlite = [
     {file = "llvmlite-0.37.0-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:cf7d623d33d24df51adc4e9e9f5734df752330661793d1662425ad2e926cb2d4"},
     {file = "llvmlite-0.37.0-cp37-cp37m-manylinux2014_aarch64.whl", hash = "sha256:74b6c3d2eb8cef32a09e8fd7637d0d37628c74f4deedf9361e0c0ebecc239208"},
@@ -111,6 +143,10 @@ numpy = [
     {file = "numpy-1.20.3-pp37-pypy37_pp73-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:4e465afc3b96dbc80cf4a5273e5e2b1e3451286361b4af70ce1adb2984d392f9"},
     {file = "numpy-1.20.3.zip", hash = "sha256:e55185e51b18d788e49fe8305fd73ef4470596b33fc2c1ceb304566b99c71a69"},
 ]
+pycodestyle = [
+    {file = "pycodestyle-2.8.0-py2.py3-none-any.whl", hash = "sha256:720f8b39dde8b293825e7ff02c475f3077124006db4f440dcbc9a20b76548a20"},
+    {file = "pycodestyle-2.8.0.tar.gz", hash = "sha256:eddd5847ef438ea1c7870ca7eb78a9d47ce0cdb4851a5523949f2601d0cbbe7f"},
+]
 scipy = [
     {file = "scipy-1.7.3-1-cp310-cp310-macosx_12_0_arm64.whl", hash = "sha256:c9e04d7e9b03a8a6ac2045f7c5ef741be86727d8f49c45db45f244bdd2bcff17"},
     {file = "scipy-1.7.3-1-cp38-cp38-macosx_12_0_arm64.whl", hash = "sha256:b0e0aeb061a1d7dcd2ed59ea57ee56c9b23dd60100825f98238c06ee5cc4467e"},
@@ -141,4 +177,8 @@ scipy = [
     {file = "scipy-1.7.3-cp39-cp39-win32.whl", hash = "sha256:2c56b820d304dffcadbbb6cbfbc2e2c79ee46ea291db17e288e73cd3c64fefa9"},
     {file = "scipy-1.7.3-cp39-cp39-win_amd64.whl", hash = "sha256:3f78181a153fa21c018d346f595edd648344751d7f03ab94b398be2ad083ed3e"},
     {file = "scipy-1.7.3.tar.gz", hash = "sha256:ab5875facfdef77e0a47d5fd39ea178b58e60e454a4c85aa1e52fcb80db7babf"},
+]
+toml = [
+    {file = "toml-0.10.2-py2.py3-none-any.whl", hash = "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b"},
+    {file = "toml-0.10.2.tar.gz", hash = "sha256:b3bda1d108d5dd99f4a20d24d9c348e91c4db7ab1b749200bded2f839ccbe68f"},
 ]
