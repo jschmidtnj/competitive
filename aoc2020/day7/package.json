@@ -31,7 +31,7 @@
     "watch:test": "jest --watch"
   },
   "dependencies": {
-    "log4js": "^6.3.0"
+    "log4js": "^6.4.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.15",
